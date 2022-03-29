@@ -38,3 +38,10 @@ You can also quit the app, edit the file and restart the app accordingly.
 If you have access to this source code you have agreed to the NDA and Non-Compete.  This is NOT open source!
 Providing access to this app without due permission from the author is against and fully punishable by the law.
 
+#Donate
+
+This project takes time and constant maintenance.  Please share the isnane profits you will make using my software
+
+USDT, ETH, USDC, etc
+
+MetaMask Address: 0x209A4C72310Ba0EA9fE98595112c0E16dE84DeFF
