@@ -1,0 +1,65 @@
+{
+  "transactionSettings": {
+    "gasPrice": 30000000000,
+    "gasLimit": 5000000,
+    "attempts": 3
+  },
+  "localServer": {
+    "port": 9195
+  },
+  "contracts": {
+    "quest": {
+      "address": "0x5100bd31b822371108a0f63dcfb6594b9919eaf4"
+    },
+    "hero": {
+      "address": "0x5f753dcdf9b1ad9aabc1346614d1f4746fd6ce5c"
+    },
+    "profile": {
+      "address": "0x6391F796D56201D279a42fD3141aDa7e26A3B4A5"
+    },
+    "jewelToken": {
+      "transferAll": {
+        "address": "0x72cb10c6bfa5624dd07ef608027e366bd690048f"
+      },
+      "address": "0x72cb10c6bfa5624dd07ef608027e366bd690048f"
+    }
+  },
+  "availableQuests": {
+    "fishing": {
+      "address": "0xE259e8386d38467f0E7fFEdB69c3c9C935dfaeFc"
+    },
+    "foraging": {
+      "address": "0x3132c76acF2217646fB8391918D28a16bD8A8Ef4"
+    },
+    "mining": {
+      "address": "0x6ff019415ee105acf2ac52483a33f5b43eadb8d0"
+    },
+    "wishingWell": {
+      "address": "0x0548214A0760a897aF53656F4b69DbAD688D8f29"
+    }
+  },
+  "heroSettings": {
+    "minimumStaminaToDoQuest": 1
+  },
+  "questSettings": {
+    "cancelQuestsAfterMilliseconds": 9300000,
+    "checkForQuestStatusAfterMilliseconds": 300000
+  },
+  "rpc": {
+    "mode": "websocket",
+    "https": {
+      "urls": [
+        "https://api.harmony.one",
+        "https://s1.api.harmony.one",
+        "https://s2.api.harmony.one",
+        "https://s3.api.harmony.one",
+        "https,://rpc.hermesdefi.io"
+      ]
+    },
+    "websocket": {
+      "urls": [
+        "wss://ws.s0.t.hmny.io/"
+        ]
+    }
+  }
+}
