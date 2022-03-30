@@ -8,23 +8,39 @@ const ethers = require("ethers");
 const config = require('../../config.json');
 
 export default class TrueWallet {
+    private static _instance: TrueWallet;
     private provider: any;
-    private wallet?: Wallet;
+    //private wallets?: [Wallet];
 
-    constructor(privateKey?: string) {
+    constructor() {
         if(config.rpc.mode === "websocket")
             this.provider = new ethers.providers.WebSocketProvider(config.rpc.websocket.urls[0]);
         else {
             this.provider = new ethers.providers.JsonRpcProvider(config.rpc.https.urls[0]);
         }
-
-        if(privateKey) {
-            this.wallet = new ethers.Wallet(privateKey, this.provider);
-        }
     }
 
-    public getTrueWallet() : Wallet {
-        return this.wallet!;
+    public static get instance() {
+        this._instance = this._instance || new this();
+        return this._instance;
+    }
+
+    public getWallet(privateKey: string) : Wallet {
+        return new ethers.Wallet(privateKey, this.provider);
+        /*
+        let foundWallet = this.wallets?.find(x=>x.privateKey === privateKey);
+        if(foundWallet) {
+            return foundWallet;
+        } else {
+            foundWallet = new ethers.Wallet(privateKey, this.provider);
+
+            if(this.wallets)
+                 this.wallets.push(foundWallet!);
+            else
+                this.wallets = [foundWallet!];
+
+            return foundWallet!;
+        }*/
     }
 
     public async sendOneToWallet(sourceWallet: IWallet, destinationAddress: string, amountOfOneToSend: number) : Promise<{  success: boolean, balance?: string, receipt?: any }> {

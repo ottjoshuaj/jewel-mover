@@ -18,10 +18,10 @@
       "address": "0x6391F796D56201D279a42fD3141aDa7e26A3B4A5"
     },
     "jewelToken": {
-      "transferAll": {
-        "address": "0x72cb10c6bfa5624dd07ef608027e366bd690048f"
-      },
       "address": "0x72cb10c6bfa5624dd07ef608027e366bd690048f"
+    },
+    "consumable": {
+      "address": "0x38e76972bd173901b5e5e43ba5cb464293b80c31"
     }
   },
   "availableQuests": {
@@ -46,14 +46,14 @@
     "checkForQuestStatusAfterMilliseconds": 300000
   },
   "rpc": {
-    "mode": "websocket",
+    "mode": "https",
     "https": {
       "urls": [
+        "https://rpc.hermesdefi.io",
         "https://api.harmony.one",
         "https://s1.api.harmony.one",
         "https://s2.api.harmony.one",
-        "https://s3.api.harmony.one",
-        "https,://rpc.hermesdefi.io"
+        "https://s3.api.harmony.one"
       ]
     },
     "websocket": {

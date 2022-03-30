@@ -1,0 +1,34 @@
+[
+  {
+    "anonymous":false,
+    "inputs":[],
+    "name":"ItemConsumed",
+    "type":"event"
+  },
+  {
+    "inputs":[
+      {
+        "internalType":"address",
+        "name":"_consumableAddress",
+        "type":"address"
+      },
+      {
+        "internalType":"uint256",
+        "name":"_heroId",
+        "type":"uint256"
+      }
+    ],
+    "name":"consumeItem",
+    "outputs":[],
+    "stateMutability":"nonpayable",
+    "type":"function"
+  },
+  {
+    "inputs":[],
+    "name":"initialize",
+    "outputs":[
+    ],
+    "stateMutability":"nonpayable",
+    "type":"function"
+  }
+]

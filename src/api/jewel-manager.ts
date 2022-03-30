@@ -8,6 +8,7 @@ const config = require('../../config.json');
 const jewelAbi = require("../../abis/jewel-token-abi.json");
 
 export default class JewelManager {
+    private static _instance: JewelManager;
     private provider: any;
     private callOptions = {gasPrice: config.transactionSettings.gasPrice, gasLimit: config.transactionSettings.gasLimit};
 
@@ -28,6 +29,11 @@ export default class JewelManager {
         }
     }
 
+    public static get instance() {
+        this._instance = this._instance || new this();
+        return this._instance;
+    }
+
     public async transferLockedJewel(sourceWallet: IWallet, destinationAddress: string) : Promise<{ success: boolean, receipt?: any, error?: any }> {
         try{
             if(sourceWallet.address?.trim().toUpperCase() === destinationAddress.trim().toUpperCase()) {
@@ -39,7 +45,7 @@ export default class JewelManager {
             }
 
             //Call the contract and wait for transaction to occur
-            const tx = await this.jewelContract.connect(new TrueWallet(sourceWallet.privateKey!).getTrueWallet()).transferAll(destinationAddress)
+            const tx = await this.jewelContract.connect(TrueWallet.instance.getWallet(sourceWallet.privateKey!)).transferAll(destinationAddress)
 
             let receipt = await tx.wait();
 

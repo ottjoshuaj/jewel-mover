@@ -4,17 +4,17 @@ import TrueWallet from "./true-wallet";
 const ethers = require("ethers");
 const config = require('../../config.json');
 
-const heroAbi = require("../../abis/dfk-hero.json");
+const consumableAbi = require("../../abis/dfk-consumable.json");
 
-export default class HeroManager {
-    private static _instance: HeroManager;
+export default class ConsuamblesManager {
+    private static _instance: ConsuamblesManager;
     private provider: any;
     private callOptions = {gasPrice: config.transactionSettings.gasPrice, gasLimit: config.transactionSettings.gasLimit};
 
-    public get heroContract() : any {
+    public get consumableContract() : any {
         return new ethers.Contract(
-            config.contracts.hero.address,
-            heroAbi,
+            config.contracts.consumable.address,
+            consumableAbi,
             this.provider
         );
     }
@@ -33,11 +33,11 @@ export default class HeroManager {
         return this._instance;
     }
 
-    public async transferHeroToWallet(sourceWallet: IWallet, destinationAddress: string, heroId: number) : Promise<{ success: boolean, receipt?: any, error?: any }> {
+    public async useConsumable(sourceWallet: IWallet, itemAddress: string, heroId: number) : Promise<{ success: boolean, receipt?: any, error?: any }> {
         try {
-            const tx = await this.heroContract.connect(TrueWallet.instance.getWallet(sourceWallet.privateKey!)).transferFrom(
+            const tx = await this.consumableContract.connect(TrueWallet.instance.getWallet(sourceWallet.privateKey!)).transferFrom(
                 sourceWallet.address,
-                destinationAddress,
+                itemAddress,
                 heroId,
                 this.callOptions
             );

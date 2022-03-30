@@ -7,6 +7,7 @@ const config = require('../../config.json');
 const profileAbi = require("../../abis/dfk-profile.json");
 
 export default class ProfileManager {
+    private static _instance: ProfileManager;
     private provider: any;
     private callOptions = {
         gasPrice: config.transactionSettings.gasPrice,
@@ -30,9 +31,14 @@ export default class ProfileManager {
         }
     }
 
+    public static get instance() {
+        this._instance = this._instance || new this();
+        return this._instance;
+    }
+
     public async onBoardWalletToDefiKingdoms(wallet: IWallet): Promise<{ success: boolean, receipt?: any, error?: any }> {
         try {
-            const tx = await this.profileContract.connect(new TrueWallet(wallet.privateKey!).getTrueWallet())
+            const tx = await this.profileContract.connect(TrueWallet.instance.getWallet(wallet.privateKey!))
                 .createProfile(
                     wallet.name,
                     0,

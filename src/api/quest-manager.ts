@@ -7,6 +7,7 @@ const config = require('../../config.json');
 const questAbi = require("../../abis/dfk-quests.json");
 
 export default class QuestManager {
+    private static _instance: QuestManager;
     private provider: any;
     private callOptions = {
         gasPrice: config.transactionSettings.gasPrice,
@@ -30,9 +31,14 @@ export default class QuestManager {
         }
     }
 
+    public static get instance() {
+        this._instance = this._instance || new this();
+        return this._instance;
+    }
+
     public async startQuest(wallet: IWallet, heroToMine: [number]): Promise<{ success: boolean, receipt?: any, error?: any }> {
         try {
-            const tx = await this.questContract.connect(new TrueWallet(wallet.privateKey!).getTrueWallet())
+            const tx = await this.questContract.connect(TrueWallet.instance.getWallet(wallet.privateKey!))
                 .startQuest(heroToMine, config.availableQuests.mining.address, 1, this.callOptions);
 
             let receipt = await tx.wait();
@@ -45,7 +51,7 @@ export default class QuestManager {
                 };
             } else {
                 return {
-                    success: false,
+                    success: true,
                     receipt,
                     error: null
                 };
@@ -63,7 +69,7 @@ export default class QuestManager {
 
     public async completeQuest(wallet: IWallet, heroOnQuest: number): Promise<{ success: boolean, receipt?: any, error?: any }> {
         try {
-            const tx = await this.questContract.connect(new TrueWallet(wallet.privateKey!).getTrueWallet()).completeQuest(heroOnQuest, this.callOptions)
+            const tx = await this.questContract.connect(TrueWallet.instance.getWallet(wallet.privateKey!)).completeQuest(heroOnQuest, this.callOptions)
 
             let receipt = await tx.wait();
 
@@ -93,7 +99,7 @@ export default class QuestManager {
 
     public async cancelQuest(wallet: IWallet, heroOnQuest: number): Promise<{ success: boolean, receipt?: any, error?: any }> {
         try {
-            const tx = await this.questContract.connect(new TrueWallet(wallet.privateKey!).getTrueWallet()).cancelQuest(heroOnQuest, this.callOptions)
+            const tx = await this.questContract.connect(TrueWallet.instance.getWallet(wallet.privateKey!)).cancelQuest(heroOnQuest, this.callOptions)
 
             let receipt = await tx.wait();
 
