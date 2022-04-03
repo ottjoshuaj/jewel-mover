@@ -142,11 +142,11 @@ router.route('/quest/complete').post(
         try {
             const { wallet, heroId } = request.body;
 
-            console.log(`[${new Date().toLocaleString()}] => Received Quest Create Call => Starting Complete For => Wallet: ${wallet.address} => HeroId: ${heroId}`);
+            console.log(`[${new Date().toLocaleString()}] => Received Quest Complete Call => Starting Complete For => Wallet: ${wallet.address} => HeroId: ${heroId}`);
 
             response.status(200).send(await QuestManager.instance.completeQuest(wallet, heroId));
 
-            console.log(`[${new Date().toLocaleString()}] => Received Quest Create Call => Starting Complete For => Wallet: ${wallet.address} => HeroId: ${heroId} => COMPLETE`);
+            console.log(`[${new Date().toLocaleString()}] => Received Quest Complete Call => Starting Complete For => Wallet: ${wallet.address} => HeroId: ${heroId} => COMPLETE`);
         } catch (e) {
             console.log({ status: 'exceptionHandled', error: e });
             response.status(200).send({ success: false });
@@ -181,6 +181,19 @@ router.route('/jewel/transfer').post(
             response.status(200).send(await JewelManager.instance.transferLockedJewel(wallet, destinationAddress));
 
             console.log(`[${new Date().toLocaleString()}] => Received Jewel Transfer Call => Moving all jewel => FROM WALLET: ${wallet.address} => TO WALLET: ${destinationAddress} => COMPLETE`);
+        } catch (e) {
+            console.log({ status: 'exceptionHandled', error: e });
+            response.status(200).send({ success: false });
+        }
+    }
+);
+
+router.route('/hero/stamina').post(
+    async (request, response, next) => {
+        try {
+            const { wallet, destinationAddress, amount } = request.body;
+
+            response.status(200).send(await JewelManager.instance.transfer(wallet, destinationAddress, amount ));
         } catch (e) {
             console.log({ status: 'exceptionHandled', error: e });
             response.status(200).send({ success: false });
