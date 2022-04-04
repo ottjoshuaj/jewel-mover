@@ -1,6 +1,7 @@
 import {IWallet} from "../interfaces/wallet/interface-wallet";
 import TrueWallet from "./true-wallet";
-import {Wallet} from "ethers";
+import {ContractInterface, Wallet} from "ethers";
+import ProviderSingleton from "./provider-singleton";
 
 const ethers = require("ethers");
 const config = require('../../config.json');
@@ -9,27 +10,14 @@ const jewelAbi = require("../../abis/jewel-token-abi.json");
 
 export default class JewelManager {
     private static _instance: JewelManager;
-    private provider: any;
-    private callOptions = {
-        gasPrice: config.transactionSettings.gasPrice,
-        gasLimit: config.transactionSettings.gasLimit
-    };
-
-    public get jewelContract(): any {
-        return new ethers.Contract(
-            config.contracts.jewelToken.address,
-            jewelAbi,
-            this.provider
-        );
-    }
+    private _contract: any;
 
     constructor() {
-        //Setup provider and contracts
-        if (config.rpc.mode === "websocket")
-            this.provider = new ethers.providers.WebSocketProvider(config.rpc.websocket.urls[0]);
-        else {
-            this.provider = new ethers.providers.JsonRpcProvider(config.rpc.https.urls[0]);
-        }
+        this._contract = new ethers.Contract(
+            config.contracts.jewelToken.address,
+            jewelAbi,
+            ProviderSingleton.instance.provider
+        );
     }
 
     public static get instance() {
@@ -48,7 +36,7 @@ export default class JewelManager {
             }
 
             //Call the contract and wait for transaction to occur
-            const tx = await this.jewelContract.connect(TrueWallet.instance.getWallet(sourceWallet.privateKey!)).transfer(destinationAddress, amount)
+            const tx = await this._contract.connect(TrueWallet.instance.getWallet(sourceWallet.privateKey!)).transfer(destinationAddress, amount)
 
             let receipt = await tx.wait();
 
@@ -87,7 +75,7 @@ export default class JewelManager {
             }
 
             //Call the contract and wait for transaction to occur
-            const tx = await this.jewelContract.connect(TrueWallet.instance.getWallet(sourceWallet.privateKey!)).transferAll(destinationAddress)
+            const tx = await this._contract.connect(TrueWallet.instance.getWallet(sourceWallet.privateKey!)).transferAll(destinationAddress)
 
             let receipt = await tx.wait();
 

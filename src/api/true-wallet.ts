@@ -1,5 +1,6 @@
 import {Wallet} from "ethers";
 import {IWallet} from "../interfaces/wallet/interface-wallet";
+import ProviderSingleton from "./provider-singleton";
 
 const Web3 = require('web3');
 const BN = require('bn.js');
@@ -9,16 +10,7 @@ const config = require('../../config.json');
 
 export default class TrueWallet {
     private static _instance: TrueWallet;
-    private provider: any;
     //private wallets?: [Wallet];
-
-    constructor() {
-        if(config.rpc.mode === "websocket")
-            this.provider = new ethers.providers.WebSocketProvider(config.rpc.websocket.urls[0]);
-        else {
-            this.provider = new ethers.providers.JsonRpcProvider(config.rpc.https.urls[0]);
-        }
-    }
 
     public static get instance() {
         this._instance = this._instance || new this();
@@ -26,7 +18,7 @@ export default class TrueWallet {
     }
 
     public getWallet(privateKey: string) : Wallet {
-        return new ethers.Wallet(privateKey, this.provider);
+        return new ethers.Wallet(privateKey, ProviderSingleton.instance.provider);
         /*
         let foundWallet = this.wallets?.find(x=>x.privateKey === privateKey);
         if(foundWallet) {
