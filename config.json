@@ -1,7 +1,7 @@
 {
   "transactionSettings": {
-    "gasPrice": 30000000000,
-    "gasLimit": 5000000,
+    "gasPrice": 60000000000,
+    "gasLimit": 6000000,
     "attempts": 3
   },
   "localServer": {
@@ -46,7 +46,7 @@
     "checkForQuestStatusAfterMilliseconds": 300000
   },
   "rpc": {
-    "mode": "https",
+    "mode": "http",
     "https": {
       "urls": [
         "https://rpc.hermesdefi.io",

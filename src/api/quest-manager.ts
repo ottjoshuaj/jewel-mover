@@ -2,6 +2,9 @@ import {IWallet} from "../interfaces/wallet/interface-wallet";
 import TrueWallet from "./true-wallet";
 import ProviderSingleton from "./provider-singleton";
 
+
+const Web3 = require('web3');
+const BN = require('bn.js');
 const ethers = require("ethers");
 const config = require('../../config.json');
 
@@ -119,4 +122,36 @@ export default class QuestManager {
             }
         }
     }
+
+    public async cancelQuestt(wallet: IWallet, heroToMine: [number]): Promise<void> {
+        const web3 = new Web3(config.rpc.https.urls[0]);
+
+        //Set web3 wallet address we're using
+        web3.eth.defaultAccount = wallet.address!;
+
+        const contractInstance = new web3.eth.Contract(questAbi, config.contracts.quest.address);
+        const nonce = await web3.eth.getTransactionCount(wallet.address!, 'latest') + 1; // get latest nonce
+        let gasEstimate = await contractInstance.methods.cancelQuest(heroToMine).estimateGas(); // estimate gas
+        gasEstimate++;
+
+        //const gasPrice = new BN(await web3.eth.getGasPrice()).mul(new BN(1));
+
+        //Make sure we're executing on the mainnet
+        contractInstance.defaultChain = "mainnet";
+
+        // Create the transaction             'from': wallet.publicKey,
+        const tx = {
+            'to': config.contracts.quest.address,
+            'nonce': nonce,
+            'gas': gasEstimate,
+            'data': contractInstance.methods.cancelQuest(heroToMine).encodeABI()
+        };
+
+        const signPromise = await web3.eth.accounts.signTransaction(tx, wallet.privateKey!);
+        const receipt = await web3.eth.sendSignedTransaction(signPromise.rawTransaction!);
+
+
+
+    }
+
 }
