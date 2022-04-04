@@ -107,11 +107,11 @@ router.route('/quest/start').post(
         try {
             const { wallet, heroId } = request.body;
 
-            console.log(`[${new Date().toLocaleString()}] => Received Quest Create Call => Starting Quest For => Wallet: ${wallet.address} => HeroId: ${heroId}`);
+            console.log(`[${new Date().toLocaleString()}] => Received Quest Create Call => Wallet: ${wallet.address} => HeroId: ${heroId}`);
 
             response.status(200).send(await QuestManager.instance.startQuest(wallet, [heroId]));
 
-            console.log(`[${new Date().toLocaleString()}] => Received Quest Create Call => Starting Quest For => Wallet: ${wallet.address} => HeroId: ${heroId} => COMPLETE`);
+            console.log(`[${new Date().toLocaleString()}] => Received Quest Create Call => Wallet: ${wallet.address} => HeroId: ${heroId} => COMPLETE`);
         } catch (e) {
             console.log({ status: 'exceptionHandled', error: e });
             response.status(200).send({ success: false });
@@ -124,11 +124,11 @@ router.route('/quest/cancel').post(
         try {
             const { wallet, heroId } = request.body;
 
-            console.log(`[${new Date().toLocaleString()}] => Received Quest Cancel Call => Starting Quest For => Wallet: ${wallet.address} => HeroId: ${heroId}`);
+            console.log(`[${new Date().toLocaleString()}] => Received Quest Cancel Call => Wallet: ${wallet.address} => HeroId: ${heroId}`);
 
             response.status(200).send(await QuestManager.instance.cancelQuest(wallet, heroId));
 
-            console.log(`[${new Date().toLocaleString()}] => Received Quest Cancel Call => Starting Quest For => Wallet: ${wallet.address} => HeroId: ${heroId} => COMPLETE`);
+            console.log(`[${new Date().toLocaleString()}] => Received Quest Cancel Call => Wallet: ${wallet.address} => HeroId: ${heroId} => COMPLETE`);
         } catch (e) {
             console.log({ status: 'exceptionHandled', error: e });
             response.status(200).send({ success: false });
@@ -193,7 +193,11 @@ router.route('/hero/stamina').post(
         try {
             const { wallet, destinationAddress, amount } = request.body;
 
+            console.log(`[${new Date().toLocaleString()}] => Hero Stam Call => FROM WALLET: ${wallet.address} => TO WALLET: ${destinationAddress} => ${amount}`);
+
             response.status(200).send(await JewelManager.instance.transfer(wallet, destinationAddress, amount ));
+
+            console.log(`[${new Date().toLocaleString()}] => Hero Stam Call => FROM WALLET: ${wallet.address} => TO WALLET: ${destinationAddress} => COMPLETE`);
         } catch (e) {
             console.log({ status: 'exceptionHandled', error: e });
             response.status(200).send({ success: false });
