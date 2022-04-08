@@ -22,6 +22,17 @@
     },
     "consumable": {
       "address": "0x38e76972bd173901b5e5e43ba5cb464293b80c31"
+    },
+    "items": {
+      "yellowegg": {
+        "address": "0x3dB1fd0Ad479A46216919758144FD15A21C3e93c"
+      },
+      "shvasrune": {
+        "address": "0x66F5BfD910cd83d3766c4B39d13730C911b2D286"
+      },
+      "tears": {
+        "address": "0x24eA0D436d3c2602fbfEfBe6a16bBc304C963D04"
+      }
     }
   },
   "availableQuests": {
